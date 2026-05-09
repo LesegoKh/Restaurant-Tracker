@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Restaurant Order Dashboard</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#f4f6f8;color:#1f2937}
+.app{display:flex;min-height:100vh}
+
+/* Sidebar scipt for my navbar left */
+.sidebar{
+  width:240px;background:#111827;color:white;padding:20px;
+  position:fixed;top:0;bottom:0;left:0
+}
+.logo{font-size:22px;font-weight:bold;margin-bottom:30px}
+.nav button{
+  width:100%;padding:13px;margin-bottom:8px;border:0;border-radius:10px;
+  background:transparent;color:white;text-align:left;font-size:15px;cursor:pointer
+}
+.nav button.active,.nav button:hover{background:#2563eb}
+
+/* My Main page setup must go here*/
+.main{margin-left:240px;padding:24px;width:100%}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.topbar h1{font-size:26px}
+.status{background:#dcfce7;color:#166534;padding:8px 14px;border-radius:20px;font-weight:bold}
+
+/* Cards */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+margin-bottom:24px;
+border:2px;
+}
+.card{
+  background:white;padding:18px;border-radius:16px;
+  box-shadow:0 4px 14px rgba(0,0,0,.06)
+}
+.card h3{font-size:14px;
+color:#6b7280;
+margin-bottom:8px
+border:2px; 
+}
+.card p{font-size:26px;font-weight:bold}
+.card small{color:#6b7280}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+  transition: all 0.3s ease-out;
+}
+
+/* Different sections styling*/
+.section{
+  background:white;border-radius:16px;padding:20px;margin-bottom:20px;
+  box-shadow:0 4px 14px rgba(0,0,0,.06)
+}
+.section h2{margin-bottom:16px;font-size:20px}
+
+/* Tables */
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:12px;border-bottom:1px solid #e5e7eb;font-size:14px}
+th{color:#6b7280}
+.badge{padding:6px 10px;border-radius:20px;font-size:12px;font-weight:bold}
+.new{background:#dbeafe;color:#1d4ed8}
+.prep{background:#fef3c7;color:#92400e}
+.ready{background:#dcfce7;color:#166534}
+
+/* Report grid type here for mobile */
+.report-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.report-box{background:#f9fafb;padding:15px;border-radius:12px}
+.bar{height:10px;background:#e5e7eb;border-radius:10px;margin-top:8px;overflow:hidden}
+.fill{height:100%;background:#2563eb}
+
+/* Mobile bottom nav sytling will be here */
+.mobile-nav{
+  display:none;position:fixed;bottom:0;left:0;right:0;background:#111827;
+  padding:8px;z-index:99;justify-content:space-around
+}
+.mobile-nav button{
+  background:transparent;color:white;border:0;font-size:12px;padding:8px
+}
+.mobile-nav button.active{color:#60a5fa}
+
+/* Responsivess issue */
+@media(max-width:900px){
+  .sidebar{display:none}
+  .main{margin-left:0;padding:16px;padding-bottom:80px}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .report-grid{grid-template-columns:1fr}
+  .mobile-nav{display:flex}
+}
+@media(max-width:520px){
+  .cards{grid-template-columns:1fr}
+  .topbar{display:block}
+  .status{display:inline-block;margin-top:10px}
+  table{font-size:13px}
+  th:nth-child(3),td:nth-child(3){display:none}
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="logo">🍟 QuickBite</div>
+    <div class="nav">
+      <button class="active" onclick="showPage('overview', this)">Dashboard Overview</button>
+      <button onclick="showPage('current', this)">Current Orders</button>
+      <button onclick="showPage('history', this)">Order History</button>
+      <button onclick="showPage('reports', this)">Reports</button>
+      <button onclick="showPage('customers', this)">Customers</button>
+      <button onclick="showPage('menu', this)">Menu Manager</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h1 id="pageTitle">Dashboard Overview</h1>
+      <div class="status">Open Now</div>
+    </div>
+
+    <!-- Overview -->
+    <section id="overview" class="page">
+      <div class="cards">
+        <div class="card"><h3>Today's Orders</h3><p>47</p><small>+12% vs yesterday</small></div>
+        <div class="card"><h3>Estimated Revenue</h3><p>R2,840</p><small>Today</small></div>
+        <div class="card"><h3>Top Meal</h3><p>Fish & Chips</p><small>18 orders</small></div>
+        <div class="card"><h3>Busiest Time</h3><p>18:00</p><small>Dinner rush</small></div>
+      </div>
+
+      <div class="section">
+        <h2>Live Business Insight</h2>
+        <p>🔥 Prepare more fish between <b>17:30 - 19:00</b>. This is your busiest sales window.</p>
+      </div>
+
+      <div class="section">
+        <h2>Top 3 Meals Today</h2>
+        <div class="report-box">Fish & Chips <div class="bar"><div class="fill" style="width:85%"></div></div></div><br>
+        <div class="report-box">Russian & Chips <div class="bar"><div class="fill" style="width:60%"></div></div></div><br>
+        <div class="report-box">Burger Special <div class="bar"><div class="fill" style="width:40%"></div></div></div>
+      </div>
+    </section>
+
+    <!-- Current Orders -->
+    <section id="current" class="page" style="display:none">
+      <div class="section">
+        <h2>Current Orders</h2>
+        <table>
+          <tr><th>Order</th><th>Customer</th><th>Meal</th><th>Status</th><th>Total</th></tr>
+          <tr><td>#1045</td><td>Sipho</td><td>Large Fish & Chips</td><td><span class="badge new">New</span></td><td>R60</td></tr>
+          <tr><td>#1046</td><td>Amina</td><td>Russian & Chips</td><td><span class="badge prep">Preparing</span></td><td>R35</td></tr>
+          <tr><td>#1047</td><td>David</td><td>Family Combo</td><td><span class="badge ready">Ready</span></td><td>R180</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- History -->
+    <section id="history" class="page" style="display:none">
+      <div class="section">
+        <h2>Order History</h2>
+        <table>
+          <tr><th>Date</th><th>Customer</th><th>Meal</th><th>Total</th></tr>
+          <tr><td>Today 12:10</td><td>Lebo</td><td>Fish & Chips</td><td>R60</td></tr>
+          <tr><td>Today 13:30</td><td>John</td><td>Burger Special</td><td>R55</td></tr>
+          <tr><td>Yesterday</td><td>Fatima</td><td>Russian & Chips</td><td>R35</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- Reports -->
+    <section id="reports" class="page" style="display:none">
+      <div class="report-grid">
+        <div class="section">
+          <h2>Best Selling Meals</h2>
+          <p>1. Fish & Chips — 126 orders</p><br>
+          <p>2. Russian & Chips — 88 orders</p><br>
+          <p>3. Burger Special — 61 orders</p>
+        </div>
+        <div class="section">
+          <h2>Business Recommendations</h2>
+          <p>✅ Stock more fish for Fridays.</p><br>
+          <p>✅ Lunch rush starts around 12:00.</p><br>
+          <p>✅ Promote Burger Special on quiet days.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Customers -->
+    <section id="customers" class="page" style="display:none">
+      <div class="section">
+        <h2>Repeat Customers</h2>
+        <table>
+          <tr><th>Name</th><th>Phone</th><th>Orders</th><th>Favourite</th></tr>
+          <tr><td>Sipho</td><td>071 *** 1234</td><td>9</td><td>Fish & Chips</td></tr>
+          <tr><td>Amina</td><td>073 *** 8888</td><td>6</td><td>Russian & Chips</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- Menu -->
+    <section id="menu" class="page" style="display:none">
+      <div class="section">
+        <h2>Menu Manager</h2>
+        <table>
+          <tr><th>Meal</th><th>Price</th><th>Status</th></tr>
+          <tr><td>Fish & Chips</td><td>R60</td><td><span class="badge ready">Available</span></td></tr>
+          <tr><td>Russian & Chips</td><td>R35</td><td><span class="badge ready">Available</span></td></tr>
+          <tr><td>Family Combo</td><td>R180</td><td><span class="badge prep">Low Stock</span></td></tr>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="mobile-nav">
+  <button class="active" onclick="showMobile('overview', this)">Home</button>
+  <button onclick="showMobile('current', this)">Orders</button>
+  <button onclick="showMobile('reports', this)">Reports</button>
+  <button onclick="showMobile('customers', this)">Customers</button>
+  <button onclick="showMobile('menu', this)">Menu</button>
+</div>
+
+<script>
+function showPage(pageId, btn){
+  document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+  document.getElementById(pageId).style.display = 'block';
+
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+
+  document.getElementById('pageTitle').innerText = btn ? btn.innerText : 'Dashboard';
+}
+
+function showMobile(pageId, btn){
+  showPage(pageId, null);
+  document.querySelectorAll('.mobile-nav button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const titles = {
+    overview:'Dashboard Overview',
+    current:'Current Orders',
+    reports:'Reports',
+    customers:'Customers',
+    menu:'Menu Manager'
+  };
+  document.getElementById('pageTitle').innerText = titles[pageId];
+}
+</script>
+
+</body>
+</html>
